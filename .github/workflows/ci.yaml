@@ -1,0 +1,21 @@
+name: "CI"
+
+on:
+  push:
+    branches: ["*"]
+
+permissions:
+  contents: "read"
+
+jobs:
+  ci:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v4"
+
+      - uses: "pkl-community/setup-pkl@v0"
+        with:
+          pkl-version: "0.26.3"
+
+      - name: "Test"
+        run: "./scripts/test.sh"

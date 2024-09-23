@@ -1,0 +1,32 @@
+amends "pkl:test"
+
+import "types.pkl"
+
+facts {
+  ["expressions"] {
+    "$url" is types.Expression
+    "$method" is types.Expression
+    "$statusCode" is types.Expression
+
+    "$request.header.Referer" is types.Expression
+    "$request.header.Content-Type" is types.Expression
+    "$response.header.Referer" is types.Expression
+    "$response.header.Content-Type" is types.Expression
+
+    "$request.query.foobar" is types.Expression
+    "$response.query.foobar" is types.Expression
+
+    "$request.path.foobar" is types.Expression
+    "$response.path.foobar" is types.Expression
+
+    "$request.body#/foo" is types.Expression
+    "$request.body#/foo/bar[1]" is types.Expression
+    "$request.body#/foo/bar[1]/foo~0bar~1" is types.Expression
+    "$response.body#/foo" is types.Expression
+    "$response.body#/foo/bar[1]" is types.Expression
+    "$response.body#/foo/bar[1]/foo~0bar~1" is types.Expression
+
+    !("invalid" is types.Expression)
+    !("$request.header.ìnvålíd" is types.Expression)
+  }
+}

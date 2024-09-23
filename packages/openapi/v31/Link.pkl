@@ -1,0 +1,67 @@
+/// The [Link] object represents a possible design-time link for a response.
+/// The presence of a link does not guarantee the caller's ability to
+/// successfully invoke it, rather it provides a known relationship and
+/// traversal mechanism between responses and other operations.
+///
+/// Unlike *dynamic* links (i.e. links provided **in** the response payload),
+/// the OAS linking mechanism does not require link information in the runtime
+/// response.
+///
+/// For computing links, and providing instructions to execute them, a
+/// [runtime expression](https://spec.openapis.org/oas/v3.1.0.html#runtime-expressions)
+/// is used for accessing values in an operation and using them as parameters
+/// while invoking the linked operation.
+///
+/// A linked operation *MUST* be identified using either an o[perationRef] or
+/// [operationId]. In the case of an [operationId], it *MUST* be unique and
+/// resolved in the scope of the OAS document. Because of the potential for name
+/// clashes, the [operationRef] syntax is preferred for OpenAPI documents with
+/// external references.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#link-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Link
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+import "Server.pkl"
+import "types.pkl"
+
+/// A relative or absolute URI reference to an OAS operation.
+///
+/// This field is mutually exclusive of the [operationId] field, and *MUST*
+/// point to an [Operation] Object.
+///
+/// Relative [operationRef] values *MAY* be used to locate an existing
+/// [Operation] Object in the OpenAPI definition. See the rules for resolving
+/// [Relative References](https://spec.openapis.org/oas/v3.1.0.html#operation-object).
+operationRef: Uri(core.mutuallyExclusive(this, operationId))?
+
+/// The name of an existing, resolvable OAS operation, as defined with a unique
+/// [operationId]. This field is mutually exclusive of the [operationRef] field.
+operationId: core.NonEmptyString(core.mutuallyExclusive(this, operationRef))?
+
+/// A map representing parameters to pass to an operation as specified with
+/// [operationId] or identified via [operationRef].
+///
+/// The key is the parameter name to be used, whereas the value can be a
+/// constant or an expression to be evaluated and passed to the linked
+/// operation.
+///
+/// The parameter name can be qualified using [Parameter.in] `[{in}.]{name}`
+/// for operations that use the same parameter name in different locations
+/// (e.g. path.id).
+parameters: Mapping<core.NonEmptyString, *Any | types.Expression>?
+
+/// A literal value or [types.Expression] to use as a request body when calling
+/// the target operation.
+requestBody: (*Any | types.Expression)?
+
+/// A description of the link.
+///
+/// CommonMark syntax *MAY* be used for rich text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// A server object to be used by the target operation.
+server: Server?

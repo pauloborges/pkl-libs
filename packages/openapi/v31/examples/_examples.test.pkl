@@ -1,0 +1,11 @@
+amends "pkl:test"
+
+import* "*.example.pkl" as allExamples
+
+examples {
+  for (key in allExamples.keys) {
+    [key.replaceLast("example.pkl", "json")] {
+      allExamples[key].output.text
+    }
+  }
+}

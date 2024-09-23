@@ -1,0 +1,39 @@
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.core
+
+local const isNonEmptyString = (value: String) -> !value.isEmpty
+
+/// A non-empty string.
+typealias NonEmptyString = String(isNonEmptyString)
+
+/// Use this function to refine properties that are mutually exclusive.
+const function mutuallyExclusive(a: Any, b: Any): Boolean =
+  (a != null).implies(b == null)
+
+/// Allowed output formats for an OpenAPI specification.
+local typealias OutputFormat = "json" | "yaml"
+
+const local outputFormat: OutputFormat = read?("prop:pkl.outputFormat") as OutputFormat? ?? "json"
+
+const function renderer(clazz: Class, inlineFields: Listing<String>): ValueRenderer =
+  let (_converters = new Mapping<Class|String, (unknown) -> Any> {
+    [clazz] = (obj) -> inlineFields(obj, inlineFields)
+  })
+  if (outputFormat == "json") new JsonRenderer {
+    converters = _converters
+  }
+  else new YamlRenderer {
+    converters = _converters
+  }
+
+const function inlineFields(obj: Dynamic | Typed, fields: Listing<String>): Dynamic =
+  let (objAsMap: Map = fields.toList().fold(obj.toMap(), (map: Map, field: String) -> map.remove(field)))
+  new Dynamic {
+    // Object without inline fields.
+    ...objAsMap
+
+    // Inline fields.
+    for (field in fields) {
+      ...obj.getProperty(field).toMap()
+    }
+  }

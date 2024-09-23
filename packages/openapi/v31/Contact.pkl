@@ -1,0 +1,22 @@
+/// Contact information for the exposed API.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#contact-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Contact
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+
+/// The identifying name of the contact person/organization.
+name: core.NonEmptyString?
+
+/// The URL pointing to the contact information.
+///
+/// This *MUST* be in the form of a URL.
+url: Uri?
+
+/// The email address of the contact person/organization.
+///
+/// This *MUST* be in the form of an email address.
+// FIXME: enforce email address format
+email: core.NonEmptyString?

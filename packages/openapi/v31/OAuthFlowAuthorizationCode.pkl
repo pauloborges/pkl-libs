@@ -1,0 +1,20 @@
+/// <https://spec.openapis.org/oas/v3.1.0.html#oauth-flow-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.OAuthFlow
+extends "OAuthFlow.pkl"
+
+/// **REQUIRED**.
+///
+/// The authorization URL to be used for this flow.
+///
+/// This *MUST* be in the form of a URL. The OAuth2 standard requires the use of
+/// TLS.
+authorizationUrl: Uri
+
+/// **REQUIRED**.
+///
+/// The token URL to be used for this flow.
+///
+/// This *MUST* be in the form of a URL. The OAuth2 standard requires the use of
+/// TLS.
+tokenUrl: Uri

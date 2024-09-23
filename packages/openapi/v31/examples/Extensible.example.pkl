@@ -1,0 +1,7 @@
+extends ".../Extensible.pkl"
+
+name = "Guybrush Threeepwood"
+
+extensions {
+  ["x-enemy"] = "LeChuck"
+}

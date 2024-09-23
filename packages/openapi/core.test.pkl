@@ -1,0 +1,51 @@
+amends "pkl:test"
+
+import "core.pkl"
+
+facts {
+  ["NonEmptyString"] {
+    local nonEmpty: core.NonEmptyString = "non empty"
+    local blank: core.NonEmptyString = "  "
+    local empty: core.NonEmptyString = ""
+
+    nonEmpty == "non empty"
+    blank == "  "
+    module.catch(() -> empty).startsWith("Type constraint `isNonEmptyString` violated")
+  }
+
+  ["mutuallyExclusive"] {
+    core.mutuallyExclusive(null, null) == true
+    core.mutuallyExclusive(null, "a") == true
+    core.mutuallyExclusive("a", null) == true
+    core.mutuallyExclusive("a", "b") == false
+  }
+}
+
+examples {
+  ["inlineFields"] {
+    local obj = new Dynamic {
+      field1 = "value1"
+      inline1 = new Dynamic {
+        field2 = "value2"
+      }
+      inline2 = new Dynamic {
+        field3 = "value3"
+      }
+    }
+    local fields: Listing<String> = new { "inline1"; "inline2" }
+
+    core.inlineFields(obj, fields)
+  }
+
+  ["inlineFields / can not override fields"] {
+    local obj = new Dynamic {
+      field = "value1"
+      inline = new Dynamic {
+        field = "override"
+      }
+    }
+    local fields: Listing<String> = new { "inline" }
+
+    module.catch(() ->core.inlineFields(obj, fields))
+  }
+}

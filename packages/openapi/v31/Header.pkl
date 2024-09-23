@@ -1,0 +1,18 @@
+/// The Header Object follows the structure of the [Parameter] Object with the
+/// following changes:
+///
+/// 1. [name] MUST NOT be specified, it is given in the corresponding headers
+///    map.
+/// 2. [in] MUST NOT be specified, it is implicitly in header.
+/// 3. All traits that are affected by the location MUST be applicable to a
+///    location of header (for example, [style]).
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#header-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Header
+extends "AbstractParameter.pkl"
+
+/// Determines whether this header is mandatory.
+required: Boolean = false
+
+style: "simple" = "simple"

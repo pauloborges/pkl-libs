@@ -1,0 +1,45 @@
+/// The object provides metadata about the API.
+///
+/// The metadata *MAY* be used by the clients if needed, and *MAY* be presented
+/// in editing or documentation generation tools for convenience.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#info-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Info
+extends "Extensible.pkl"
+
+import "pkl:semver"
+import ".../core.pkl"
+import "Contact.pkl"
+import "License.pkl"
+
+/// **REQUIRED**.
+///
+/// The title of the API.
+title: core.NonEmptyString
+
+/// A short summary of the API.
+summary: core.NonEmptyString?
+
+/// A description of the API.
+///
+/// CommonMark syntax *MAY* be used for rich text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// A URL to the Terms of Service for the API.
+///
+/// *MUST* be in the format of a URL.
+termsOfService: Uri?
+
+/// The contact information for the exposed API.
+contact: Contact?
+
+/// The license information for the exposed API.
+license: License?
+
+/// **REQUIRED**.
+///
+/// The version of the OpenAPI document (which is distinct from the OpenAPI
+/// Specification version or the API implementation version).
+version: semver.Version

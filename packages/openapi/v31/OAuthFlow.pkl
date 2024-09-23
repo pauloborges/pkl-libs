@@ -1,0 +1,22 @@
+/// Configuration details for a supported OAuth Flow
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#oauth-flow-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+open module openapi.v31.OAuthFlow
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+
+/// The URL to be used for obtaining refresh tokens.
+///
+/// This *MUST* be in the form of a URL. The OAuth2 standard requires the use of
+/// TLS.
+refreshUrl: Uri?
+
+/// **REQUIRED**.
+///
+/// The available scopes for the OAuth2 security scheme.
+///
+/// A map between the scope name and a short description for it. The map *MAY*
+/// be empty.
+scopes: Mapping<core.NonEmptyString, core.NonEmptyString>

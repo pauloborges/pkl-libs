@@ -1,0 +1,42 @@
+examples {
+  ["CallbackWithReferences.json"] {
+    """
+    {
+      "x-extension": "foobar",
+      "foo": {
+        "$ref": "#/foo"
+      },
+      "bar": {
+        "$ref": "#/bar"
+      }
+    }
+    
+    """
+  }
+  ["Extensible.json"] {
+    """
+    {
+      "name": "Guybrush Threeepwood",
+      "x-enemy": "LeChuck"
+    }
+    
+    """
+  }
+  ["ResponsesWithReferences.json"] {
+    """
+    {
+      "default": {
+        "$ref": "#/components/responses/NotFound"
+      },
+      "x-extension": "foobar",
+      "200": {
+        "$ref": "#/components/responses/Success"
+      },
+      "5XX": {
+        "$ref": "#/components/responses/ServerError"
+      }
+    }
+    
+    """
+  }
+}

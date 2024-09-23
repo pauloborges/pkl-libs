@@ -1,0 +1,25 @@
+/// Allows configuration of the supported OAuth Flows.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#oauth-flows-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.OAuthFlows
+extends "Extensible.pkl"
+
+import "OAuthFlowAuthorizationCode.pkl"
+import "OAuthFlowClientCredentials.pkl"
+import "OAuthFlowImplicit.pkl"
+import "OAuthFlowPassword.pkl"
+
+/// Configuration for the OAuth Implicit flow.
+implicit: OAuthFlowImplicit?
+
+/// Configuration for the OAuth Resource Owner Password flow.
+password: OAuthFlowPassword?
+
+/// Configuration for the OAuth Client Credentials flow. Previously called
+/// `application` in OpenAPI 2.0.
+clientCredentials: OAuthFlowClientCredentials?
+
+/// Configuration for the OAuth Authorization Code flow. Previously called
+/// `accessCode` in OpenAPI 2.0.
+authorizationCode: OAuthFlowAuthorizationCode?

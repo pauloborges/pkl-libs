@@ -1,0 +1,12 @@
+examples {
+  ["inlineFields"] {
+    new {
+      ["field1"] = "value1"
+      ["field2"] = "value2"
+      ["field3"] = "value3"
+    }
+  }
+  ["inlineFields / can not override fields"] {
+    #"Cannot spread object because the enclosing object already has a declaration of entry key `"field"`."#
+  }
+}

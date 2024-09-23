@@ -1,0 +1,20 @@
+amends ".../Responses.pkl"
+
+import ".../Reference.pkl"
+
+`default` = new Reference {
+  $ref = "#/components/responses/NotFound"
+}
+
+responses {
+  ["200"] = new Reference {
+    $ref = "#/components/responses/Success"
+  }
+  ["5XX"] = new Reference {
+    $ref = "#/components/responses/ServerError"
+  }
+}
+
+extensions {
+  ["x-extension"] = "foobar"
+}

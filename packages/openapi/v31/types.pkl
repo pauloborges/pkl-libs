@@ -1,0 +1,55 @@
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.types
+
+import ".../core.pkl"
+
+/// Lists the required security schemes to execute this operation.
+///
+/// The name used for each property *MUST* correspond to a security scheme
+/// declared in the Security Schemes under the [Components] Object.
+///
+/// Security Requirement Objects that contain multiple schemes require that all
+/// schemes *MUST* be satisfied for a request to be authorized. This enables
+/// support for scenarios where multiple query parameters or HTTP headers are
+/// required to convey security information.
+///
+/// When a list of Security Requirement Objects is defined on the OpenAPI Object
+/// or [Operation] Object, only one of the Security Requirement Objects in the
+/// list needs to be satisfied to authorize the request.
+///
+/// Each name *MUST* correspond to a security scheme which is declared in the
+/// Security Schemes under the Components Object.
+///
+/// If the security scheme is of type `"oauth2"` or `"openIdConnect"`, then the
+/// value is a list of scope names required for the execution, and the list
+/// *MAY* be empty if authorization does not require a specified scope.
+///
+/// For other security scheme types, the array *MAY* contain a list of role
+/// names which are required for the execution, but are not otherwise defined or
+/// exchanged in-band.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#security-requirement-object>
+typealias SecurityRequirement = Mapping<core.NonEmptyString, Listing<core.NonEmptyString>>
+
+/// Runtime expressions allow defining values based on information that will
+/// only be available within the HTTP message in an actual API call.
+///
+/// This mechanism is used by [Link] Objects and [Callback] Objects.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#runtime-expressions>
+typealias Expression = "$url" | "$method" | "$statusCode" | RequestOrResponseExpression
+
+local const isRequestOrResponseExpression = (s: String) ->
+  s.matches(Regex(#"^\$(?:request|response)\.header\.\#(tokenRegex)$"#)) ||
+  s.matches(Regex(#"^\$(?:request|response)\.(?:query|path)\.\#(nameRegex)$"#)) ||
+  s.matches(Regex(#"^\$(?:request|response)\.body\#(jsonPointerRegex)$"#))
+
+typealias RequestOrResponseExpression = String(isRequestOrResponseExpression)
+
+const local tokenRegex = #"[!#$%&'*+-.^_`|~0-9a-zA-Z]+"#
+
+// https://datatracker.ietf.org/doc/html/rfc7159#section-7
+const local nameRegex = #"(?:[\x20-\x21\x23-\x5B\x5D-\x{10ffff}]|\\["\\/bfnrt]|\\u[a-z0-9]{4})*"#
+
+// https://spec.openapis.org/oas/v3.1.0.html#runtime-expressions
+const local jsonPointerRegex = #"#(?:\/(?:[^\/~]|~0|~1)*)*"#
