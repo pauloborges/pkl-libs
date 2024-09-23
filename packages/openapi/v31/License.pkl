@@ -1,0 +1,25 @@
+/// License information for the exposed API.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#license-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.License
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+
+/// **REQUIRED**.
+///
+/// The license name used for the API.
+name: core.NonEmptyString
+
+/// An [SPDX-Licenses](https://spdx.org/licenses/) expression for the API.
+///
+/// The [identifier] field is mutually exclusive of the [url] field.
+identifier: core.NonEmptyString(core.mutuallyExclusive(this, url))?
+
+/// A URL to the license used for the API.
+///
+/// This *MUST* be in the form of a URL.
+///
+/// The [url] field is mutually exclusive of the [identifier] field.
+url: Uri(core.mutuallyExclusive(this, identifier))?

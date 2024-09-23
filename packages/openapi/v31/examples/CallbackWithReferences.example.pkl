@@ -1,0 +1,14 @@
+amends ".../Callback.pkl"
+
+callbacks {
+  ["foo"] = new {
+    $ref = "#/foo"
+  }
+  ["bar"] = new {
+    $ref = "#/bar"
+  }
+}
+
+extensions {
+  ["x-extension"] = "foobar"
+}

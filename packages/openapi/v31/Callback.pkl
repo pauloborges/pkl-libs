@@ -1,0 +1,24 @@
+/// A map of possible out-of band callbacks related to the parent operation.
+///
+/// Each value in the map is a [PathItem] Object that describes a set of
+/// requests that may be initiated by the API provider and the expected
+/// responses.
+///
+/// The key value used to identify the path item object is an
+/// expression, evaluated at runtime, that identifies a URL to use for the
+/// callback operation.
+///
+/// To describe incoming requests from the API provider independent from another
+/// API call, use the [Document.webhooks] field.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#callback-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Callback
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+import "PathItem.pkl"
+
+callbacks: Mapping<core.NonEmptyString, PathItem>?
+
+inlineFields { "callbacks" }

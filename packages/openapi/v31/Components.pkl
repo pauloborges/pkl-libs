@@ -1,0 +1,53 @@
+/// Holds a set of reusable objects for different aspects of the OAS. All
+/// objects defined within the components object will have no effect on the API
+/// unless they are explicitly referenced from properties outside the
+/// components object.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#components-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Components
+extends "Extensible.pkl"
+
+import "Callback.pkl"
+import "Example.pkl"
+import "Header.pkl"
+import "Link.pkl"
+import "Parameter.pkl"
+import "PathItem.pkl"
+import "Reference.pkl"
+import "RequestBody.pkl"
+import "Response.pkl"
+import "SecurityScheme.pkl"
+import "Schema.pkl"
+
+typealias ComponentName = String(matches(Regex(#"^[a-zA-Z0-9.-_]+$"#)))
+
+/// An object to hold reusable [Schema] Objects.
+schemas: Mapping<ComponentName, Schema>?
+
+/// An object to hold reusable [Response] Objects.
+responses: Mapping<ComponentName, *Response | Reference>?
+
+/// An object to hold reusable [Parameter] Objects.
+parameters: Mapping<ComponentName, *Parameter | Reference>?
+
+/// An object to hold reusable [Example] Objects.
+examples: Mapping<ComponentName, *Example | Reference>?
+
+/// An object to hold reusable [RequestBody] Objects.
+requestBodies: Mapping<ComponentName, *RequestBody | Reference>?
+
+/// An object to hold reusable [Header] Objects.
+headers: Mapping<ComponentName, *Header | Reference>?
+
+/// An object to hold reusable [SecurityScheme] Objects.
+securitySchemes: Mapping<ComponentName, *SecurityScheme | Reference>?
+
+/// An object to hold reusable [Link] Objects.
+links: Mapping<ComponentName, *Link | Reference>?
+
+/// An object to hold reusable [Callback] Objects.
+callbacks: Mapping<ComponentName, *Callback | Reference>?
+
+/// An object to hold reusable [PathItem]  Object.
+pathItems: Mapping<ComponentName, *PathItem | Reference>?

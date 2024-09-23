@@ -1,0 +1,27 @@
+/// Adds metadata to a single tag that is used by the [Operation] Object.
+///
+/// It is not mandatory to have a [Tag] Object per tag defined in the
+/// [Operation] Object instances.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#tag-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Tag
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+import "ExternalDocumentation.pkl"
+
+/// **REQUIRED**.
+///
+/// The name of the tag.
+name: core.NonEmptyString
+
+/// A short description for the tag.
+///
+/// CommonMark syntax *MAY* be used for rich text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// Additional external documentation for this tag.
+externalDocs: ExternalDocumentation?
+

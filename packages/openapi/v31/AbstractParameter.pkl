@@ -1,0 +1,69 @@
+@ModuleInfo { minPklVersion = "0.26.0" }
+abstract module openapi.v31.AbstractParameter
+
+import "Example.pkl"
+import "MediaType.pkl"
+import "Reference.pkl"
+import "Schema.pkl"
+import ".../core.pkl"
+
+/// A brief description of the parameter.
+///
+/// This could contain examples of use.
+///
+/// CommonMark syntax *MAY* be used for rich text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// Specifies that a parameter is deprecated and *SHOULD* be transitioned out of
+/// usage.
+///
+/// Default value is `false`.
+deprecated: Boolean = false
+
+/// When this is `true`, parameter values of type `array` or `object` generate
+/// separate parameters for each value of the array or key-value pair of the
+/// map. For other types of parameters this property has no effect.
+///
+/// When [style] is `"form"`, the default value is `true`. For all other styles,
+/// the default value is `false`.
+explode: Boolean = false
+
+/// The schema defining the type used for the parameter.
+schema: Schema(core.mutuallyExclusive(this, content))?
+
+/// Example of the parameter’s potential value.
+///
+/// The [example] *SHOULD* match the specified [schema] and encoding properties
+/// if present.
+///
+/// The [example] field is mutually exclusive of the [examples] field.
+/// Furthermore, if referencing a [schema] that contains an example, the
+/// example value *SHALL* override the example provided by the schema.
+///
+/// To represent examples of media types that cannot naturally be represented
+/// in JSON or YAML, a string value can contain the example with escaping where
+/// necessary.
+example: Any(core.mutuallyExclusive(this, examples))?
+
+/// Examples of the parameter’s potential value.
+///
+/// Each example *SHOULD* contain a value in the correct format as specified in
+/// the parameter encoding.
+///
+/// The [examples] field is mutually exclusive of the [example] field.
+/// Furthermore, if referencing a [schema] that contains an example, the
+/// examples value *SHALL* override the example provided by the schema.
+examples: Mapping<core.NonEmptyString, *Example | Reference>(
+  core.mutuallyExclusive(this, example)
+)?
+
+/// A map containing the representations for the parameter.
+///
+/// The key is the media type and the value describes it. The map *MUST* only
+/// contain one entry.
+content: Mapping<core.NonEmptyString, MediaType>(
+  length == 1 && core.mutuallyExclusive(this, schema)
+)?
+
+// FIXME: enforce that either `schema` or `content` is present.

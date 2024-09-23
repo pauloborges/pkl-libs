@@ -1,0 +1,25 @@
+amends "pkl:Project"
+
+local repository = "github.com/pauloborges/pkl-libs"
+
+package {
+  name = "openapi"
+  baseUri = "package://pkg.pkl-lang.org/\(repository)/packages/openapi"
+  version = read?("env:PACKAGE_VERSION") ?? "0.0.0"
+  packageZipUrl = "https://\(repository)/releases/download/\(name)@\(version)/\(name)@\(version).zip"
+  exclude {
+    "*.test.pkl"
+    "**/*.test.pkl"
+  }
+}
+
+tests {
+  ...import*("*.test.pkl").keys
+  ...import*("**/*.test.pkl").keys
+}
+
+dependencies {
+  ["jsonschema"] {
+    uri = "package://pkg.pkl-lang.org/pkl-pantry/org.json_schema@1.0.4"
+  }
+}

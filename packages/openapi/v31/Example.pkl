@@ -1,0 +1,26 @@
+/// <https://spec.openapis.org/oas/v3.1.0.html#example-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Example
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+
+/// Short description for the example.
+summary: core.NonEmptyString?
+
+/// Long description for the example. CommonMark syntax *MAY* be used for rich
+/// text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// Embedded literal example. The value [field] and [externalValue] field are
+/// mutually exclusive. To represent examples of media types that cannot
+/// naturally represented in JSON or YAML, use a string value to contain the
+/// example, escaping where necessary.
+value: Any((this != null).implies(externalValue == null))
+
+/// A URI that points to the literal example. This provides the capability to
+/// reference examples that cannot easily be included in JSON or YAML
+/// documents. The [value] field and [externalValue] field are mutually
+/// exclusive. See the rules for resolving [Relative References](https://spec.openapis.org/oas/v3.1.0.html#relative-references-in-uris).
+externalValue: Uri?

@@ -1,0 +1,30 @@
+/// An object representing a Server.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#server-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.Server
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+import "ServerVariable.pkl"
+
+/// **REQUIRED**.
+///
+/// A URL to the target host.
+///
+/// This URL supports [ServerVariable]s and *MAY* be relative, to indicate that
+/// the host location is relative to the location where the OpenAPI document is
+/// being served. Variable substitutions will be made when a variable is named
+/// in `{brackets}`.
+url: Uri
+
+/// An optional string describing the host designated by the URL.
+///
+/// CommonMark syntax *MAY* be used for rich text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// A map between a variable name and its value.
+///
+/// The value is used for substitution in the server's URL template.
+variables: Mapping<core.NonEmptyString, ServerVariable>?

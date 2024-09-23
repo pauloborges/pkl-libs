@@ -1,0 +1,30 @@
+/// Describes a single request body.
+///
+/// <https://spec.openapis.org/oas/v3.1.0.html#request-body-object>
+@ModuleInfo { minPklVersion = "0.26.0" }
+module openapi.v31.RequestBody
+extends "Extensible.pkl"
+
+import ".../core.pkl"
+import "MediaType.pkl"
+
+/// A brief description of the request body.
+///
+/// This could contain examples of use. CommonMark syntax *MAY* be used for rich
+/// text representation.
+@SourceCode { language = "Markdown" }
+description: core.NonEmptyString?
+
+/// **REQUIRED**. The content of the request body.
+///
+/// The key is a media type or media type range, see [RFC7231 Appendix D](https://datatracker.ietf.org/doc/html/rfc7231#appendix-D),
+/// and the value describes it.
+///
+/// For requests that match multiple keys, only the most specific key is
+/// applicable. e.g. `text/plain` overrides `text/*`.
+content: Mapping<core.NonEmptyString, MediaType>(!isEmpty)
+
+/// Determines if the request body is required in the request.
+///
+/// Defaults to `false`.
+required: Boolean = false
